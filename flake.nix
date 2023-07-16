@@ -24,7 +24,7 @@
           inherit system;
           overlays = [self.overlay];
         };
-    in {
+    in rec {
       # packages exported by the flake
       packages = {
         db2-odbc-driver = pkgs.db2-odbc-driver {};
@@ -37,6 +37,23 @@
         big-query-odbc-driver = pkgs.big-query-odbc-driver {};
         mongo-db-odbc-driver = pkgs.mongo-db-odbc-driver {};
         default = pkgs.postgres-odbc-driver {};
+      };
+
+      # nix run
+      apps = {
+        ls-packages = {
+          type = "app";
+          program = toString (pkgs.writeScript "ls-packages" ''
+            echo "${packages.db2-odbc-driver}"
+            ls -l ${packages.db2-odbc-driver}/lib
+
+            # echo ${pkgs.glibc}
+            # ls -l ${pkgs.glibc}
+
+            # echo ${pkgs.stdenv.cc.cc.lib}
+            # ls -l ${pkgs.stdenv.cc.cc.lib}/lib
+          '');
+        };
       };
 
       # nix fmt
