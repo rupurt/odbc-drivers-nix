@@ -49,11 +49,13 @@ This `odbc-drivers-nix` flake assumes you have already [installed nix](https://d
       {
         packages = {
           db2-odbc-driver = pkgs.db2-odbc-driver {};
+          postgres-odbc-driver = pkgs.postgres-odbc-driver {};
         };
 
         devShells.default = pkgs.mkShell {
           packages = [
             packages.db2-odbc-driver
+            packages.postgres-odbc-driver
           ];
         };
       }
@@ -70,6 +72,7 @@ required for your project.
 | Database                                                                                        | Version    | Linux x86_64 | Linux arm64 | OS X x86_64 | OS X aarch64 |
 | ----------------------------------------------------------------------------------------------- | :--------: | :----------: | :---------: | :---------: | :----------: |
 | [Db2](https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli)           | v11.5.8    | `[x]`        | `[ ]`       | `[x]`       | `[ ]`        |
+| [Postgres](https://www.postgresql.org/download)                                                 | 15.00.0000 | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
 
 ## Authors
 

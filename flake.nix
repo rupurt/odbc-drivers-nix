@@ -28,7 +28,8 @@
       # packages exported by the flake
       packages = {
         db2-odbc-driver = pkgs.db2-odbc-driver {};
-        default = pkgs.db2-odbc-driver {};
+        postgres-odbc-driver = pkgs.postgres-odbc-driver {};
+        default = pkgs.postgres-odbc-driver {};
       };
 
       # nix fmt
@@ -41,6 +42,8 @@
       # using odbc-drivers-nix.overlay
       overlay = final: prev: {
         db2-odbc-driver = prev.pkgs.callPackage ./packages/db2.nix {};
+        postgres-odbc-driver = prev.pkgs.callPackage ./packages/postgres.nix {};
+        mongo-db-odbc-driver = prev.pkgs.callPackage ./packages/mongo-db.nix {};
       };
     };
 }
