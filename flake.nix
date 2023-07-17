@@ -30,6 +30,7 @@
         db2-odbc-driver = pkgs.db2-odbc-driver {};
         postgres-odbc-driver = pkgs.postgres-odbc-driver {};
         mariadb-odbc-driver = pkgs.mariadb-odbc-driver {};
+        mysql-odbc-driver = pkgs.mysql-odbc-driver {};
         default = pkgs.postgres-odbc-driver {};
       };
 
@@ -45,6 +46,7 @@
         db2-odbc-driver = prev.pkgs.callPackage ./packages/db2.nix {};
         postgres-odbc-driver = prev.pkgs.callPackage ./packages/postgres.nix {};
         mariadb-odbc-driver = prev.pkgs.callPackage ./packages/mariadb.nix {};
+        mysql-odbc-driver = prev.pkgs.callPackage ./packages/mysql.nix {};
       };
     };
 }

@@ -1,25 +1,58 @@
 {
   fetchurl,
+  fetchFromGitHub,
   stdenv,
+  cmake,
+  unixODBC,
+  openssl,
+  libiconv,
+  mariadb,
+  # mysql80,
+  lib,
 }: {}: let
   pname = "mysql-odbc-driver";
-  version = "11.5.8";
-  sources = {
-    x86_64-darwin = fetch "macos64" "sha256-rd4VIbak+QUnL3MQg1jpOkP1/QJTvkTqzNlQx33Pih0=";
-    x86_64-linux = fetch "linuxx64" "sha256-P3aQJNzBCJO2SNxYjnDwzckHi7zp6xzIc7qm4Qb703w=";
-  };
-  fetch = platform: sha256:
-    fetchurl {
-      inherit sha256;
-      url = "https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli/v${version}/${platform}_odbc_cli.tar.gz";
-    };
+  version = "8.1.0";
+  url = "https://github.com/mysql/mysql-connector-odbc.git";
+  rev = "2931780e141e741f34cb2fb6cd27f4130a19a878";
 in
-  stdenv.mkDerivation {
+  stdenv.mkDerivation rec {
     inherit pname version;
-    src = sources.${stdenv.hostPlatform.system};
 
-    installPhase = ''
-      mkdir -p $out/lib
-      cp -r lib/* $out/lib
+    src = builtins.fetchGit {
+      url = url;
+      ref = "refs/tags/${version}";
+      rev = rev;
+      submodules = true;
+    };
+
+    nativeBuildInputs = [cmake];
+    buildInputs = [unixODBC openssl libiconv mariadb];
+    # buildInputs = [unixODBC openssl libiconv mysql80];
+
+    preConfigure = ''
+      # we don't want to build a .pkg
+      substituteInPlace CMakeLists.txt \
+        --replace "IF(APPLE)" "IF(0)" \
+        --replace "CMAKE_SYSTEM_NAME MATCHES AIX" "APPLE"
     '';
+
+    cmakeFlags = [
+      "-DODBC_LIB_DIR=${lib.getLib unixODBC}/lib"
+      "-DODBC_INCLUDE_DIR=${lib.getDev unixODBC}/include"
+      "-DWITH_OPENSSL=ON"
+      # on darwin this defaults to ON but we want to build against unixODBC
+      "-DWITH_IODBC=OFF"
+    ];
+
+    passthru = {
+      fancyName = "MySQL";
+      driver = "lib/libmyodbc${stdenv.hostPlatform.extensions.sharedLibrary}";
+    };
+
+    meta = with lib; {
+      description = "MySQL ODBC database driver";
+      homepage = "https://github.com/mysql/mysql-connector-odbc";
+      license = licenses.gpl2;
+      platforms = platforms.linux ++ platforms.darwin;
+    };
   }
