@@ -49,13 +49,27 @@ This `odbc-drivers-nix` flake assumes you have already [installed nix](https://d
       {
         packages = {
           db2-odbc-driver = pkgs.db2-odbc-driver {};
+          mssql-odbc-driver = pkgs.mssql-odbc-driver {};
+          oracle-odbc-driver = pkgs.oracle-odbc-driver {};
           postgres-odbc-driver = pkgs.postgres-odbc-driver {};
+          mysql-odbc-driver = pkgs.mysql-odbc-driver {};
+          maria-db-odbc-driver = pkgs.maria-db-odbc-driver {};
+          snowflake-odbc-driver = pkgs.snowflake-odbc-driver {};
+          big-query-odbc-driver = pkgs.big-query-odbc-driver {};
+          mongo-db-odbc-driver = pkgs.mongo-db-odbc-driver {};
         };
 
         devShells.default = pkgs.mkShell {
           packages = [
             packages.db2-odbc-driver
+            packages.mssql-odbc-driver
+            packages.oracle-odbc-driver
             packages.postgres-odbc-driver
+            packages.mysql-odbc-driver
+            packages.maria-db-odbc-driver
+            packages.snowflake-odbc-driver
+            packages.big-query-odbc-driver
+            packages.mongo-db-odbc-driver
           ];
         };
       }
@@ -72,7 +86,14 @@ required for your project.
 | Database                                                                                        | Version    | Linux x86_64 | Linux arm64 | OS X x86_64 | OS X aarch64 |
 | ----------------------------------------------------------------------------------------------- | :--------: | :----------: | :---------: | :---------: | :----------: |
 | [Db2](https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli)           | v11.5.8    | `[x]`        | `[ ]`       | `[x]`       | `[ ]`        |
+| [MSSQL](https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server) | 18.2.2.1   | `[ ]`        | `[ ]`       | `[ ]`       | `[ ]`        |
+| [Oracle](https://www.oracle.com/database/technologies/instant-client/downloads.html)            | x.x.x      | `[ ]`        | `[ ]`       | `[ ]`       | `[ ]`        |
 | [Postgres](https://www.postgresql.org/download)                                                 | 15.00.0000 | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
+| [MySQL](https://dev.mysql.com/downloads/connector/odbc)                                         | 8.0.33     | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
+| [MariaDB](https://mariadb.com/kb/en/mariadb-connector-odbc)                                     | x.x.x      | `[ ]`        | `[ ]`       | `[ ]`       | `[ ]`        |
+| [Snowflake](https://developers.snowflake.com/odbc)                                              | x.x.x      | `[ ]`        | `[ ]`       | `[ ]`       | `[ ]`        |
+| [BigQuery](https://cloud.google.com/bigquery/docs/reference/odbc-jdbc-drivers)                  | 3.0.0.1001 | `[ ]`        | `[ ]`       | `[ ]`       | `[ ]`        |
+| [MongoDB](https://www.mongodb.com/docs/bi-connector/master/reference/odbc-driver)               | x.x.x      | `[ ]`        | `[ ]`       | `[ ]`       | `[ ]`        |
 
 ## Authors
 

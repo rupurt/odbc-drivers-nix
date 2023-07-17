@@ -1,22 +1,32 @@
 {
-  fetchurl,
   stdenv,
+  pkgs,
 }: {}: let
   pname = "mysql-odbc-driver";
-  version = "11.5.8";
-  sources = {
-    x86_64-darwin = fetch "macos64" "sha256-rd4VIbak+QUnL3MQg1jpOkP1/QJTvkTqzNlQx33Pih0=";
-    x86_64-linux = fetch "linuxx64" "sha256-P3aQJNzBCJO2SNxYjnDwzckHi7zp6xzIc7qm4Qb703w=";
-  };
-  fetch = platform: sha256:
-    fetchurl {
-      inherit sha256;
-      url = "https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli/v${version}/${platform}_odbc_cli.tar.gz";
-    };
+  version = "8.0.33";
+  rev = "913f45590844a5c26f376a0ec48889eac7c72c26";
+
 in
   stdenv.mkDerivation {
     inherit pname version;
-    src = sources.${stdenv.hostPlatform.system};
+    src = builtins.fetchGit {
+      url = "https://github.com/mysql/mysql-connector-odbc.git";
+      ref = "refs/tags/${version}";
+      rev = rev;
+    };
+
+    nativeBuildInputs = [
+      pkgs.cmake
+    ];
+
+    buildInputs = [
+      # pkgs.mysql
+      # can't follow symlink to mysql.h
+      # - need nixpkgs to update to 3.3
+      pkgs.libmysqlclient
+      # pkgs.mariadb
+      pkgs.unixODBC
+    ];
 
     installPhase = ''
       mkdir -p $out/lib
