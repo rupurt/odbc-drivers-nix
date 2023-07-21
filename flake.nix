@@ -28,7 +28,14 @@
       # packages exported by the flake
       packages = {
         db2-odbc-driver = pkgs.db2-odbc-driver {};
+        mssql-odbc-driver = pkgs.mssql-odbc-driver {};
+        oracle-odbc-driver = pkgs.oracle-odbc-driver {};
         postgres-odbc-driver = pkgs.postgres-odbc-driver {};
+        mysql-odbc-driver = pkgs.mysql-odbc-driver {};
+        mariadb-odbc-driver = pkgs.mariadb-odbc-driver {};
+        snowflake-odbc-driver = pkgs.snowflake-odbc-driver {};
+        big-query-odbc-driver = pkgs.big-query-odbc-driver {};
+        mongo-db-odbc-driver = pkgs.mongo-db-odbc-driver {};
         default = pkgs.postgres-odbc-driver {};
       };
 
@@ -42,7 +49,13 @@
       # using odbc-drivers-nix.overlay
       overlay = final: prev: {
         db2-odbc-driver = prev.pkgs.callPackage ./packages/db2.nix {};
+        mssql-odbc-driver = prev.pkgs.callPackage ./packages/mssql.nix {};
+        oracle-odbc-driver = prev.pkgs.callPackage ./packages/oracle.nix {};
         postgres-odbc-driver = prev.pkgs.callPackage ./packages/postgres.nix {};
+        mysql-odbc-driver = prev.pkgs.callPackage ./packages/mysql.nix {};
+        mariadb-odbc-driver = prev.pkgs.callPackage ./packages/mariadb.nix {};
+        snowflake-odbc-driver = prev.pkgs.callPackage ./packages/snowflake.nix {};
+        big-query-odbc-driver = prev.pkgs.callPackage ./packages/big-query.nix {};
         mongo-db-odbc-driver = prev.pkgs.callPackage ./packages/mongo-db.nix {};
       };
     };
