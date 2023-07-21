@@ -50,14 +50,16 @@ This `odbc-drivers-nix` flake assumes you have already [installed nix](https://d
         packages = {
           db2-odbc-driver = pkgs.db2-odbc-driver {};
           postgres-odbc-driver = pkgs.postgres-odbc-driver {};
-          mariadb-odbc-driver = pkgs.mariadb-odbc-driver {};
+          mysql-odbc-driver = pkgs.mysql-odbc-driver {};
+          maria-db-odbc-driver = pkgs.maria-db-odbc-driver {};
         };
 
         devShells.default = pkgs.mkShell {
           packages = [
             packages.db2-odbc-driver
             packages.postgres-odbc-driver
-            packages.mariadb-odbc-driver
+            packages.mysql-odbc-driver
+            packages.maria-db-odbc-driver
           ];
         };
       }
@@ -75,6 +77,7 @@ required for your project.
 | ----------------------------------------------------------------------------------------------- | :--------: | :----------: | :---------: | :---------: | :----------: |
 | [Db2](https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli)           | v11.5.8    | `[x]`        | `[ ]`       | `[x]`       | `[ ]`        |
 | [Postgres](https://www.postgresql.org/download)                                                 | 15.00.0000 | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
+| [MySQL](https://dev.mysql.com/downloads/connector/odbc)                                         | 8.0.33     | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
 | [MariaDB](https://mariadb.com/kb/en/mariadb-connector-odbc)                                     | 3.1.9      | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
 
 ## Authors
