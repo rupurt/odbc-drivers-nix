@@ -3,9 +3,10 @@
   fetchurl,
   glibc,
   lib,
-  libxcrypt,
   libxml2,
   pam,
+  libxcrypt,
+  libxcrypt-legacy,
   stdenv,
 }: {}: let
   pname = "db2-odbc-driver";
@@ -29,13 +30,20 @@ in
       autoPatchelfHook
     ];
 
-    # when upgrading to glibc >= 2.36 may need libxcrypt-legacy for libcrypt.so
-    buildInputs = [
-      libxcrypt
-      libxml2
-      pam
-      stdenv.cc.cc.lib
-    ];
+    buildInputs =
+      [
+        libxml2
+        pam
+        stdenv.cc.cc.lib
+      ]
+      # when using glibc >= 2.36 on linux need libxcrypt-legacy for libcrypt.so
+      # https://github.com/NixOS/nixpkgs/issues/223805
+      ++ lib.optionals (stdenv.isLinux) [
+        libxcrypt-legacy
+      ]
+      ++ lib.optionals (stdenv.isDarwin) [
+        libxcrypt
+      ];
 
     installPhase = ''
       mkdir -p $out/lib
