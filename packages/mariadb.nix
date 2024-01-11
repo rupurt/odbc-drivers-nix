@@ -1,32 +1,32 @@
 {
-  fetchurl,
-  fetchFromGitHub,
-  stdenv,
-  cmake,
-  unixODBC,
-  openssl,
-  libiconv,
-  lib,
-}: {}: let
-  pname = "mariadb-odbc-driver";
-  version = "3.1.9";
-  sha256 = "0wvy6m9qfvjii3kanf2d1rhfaww32kg0d7m57643f79qb05gd6vg";
+  pkgs,
+  specialArgs ? {},
+}: let
+  defaultArgs = {
+    pname = "mariadb-odbc-driver";
+    version = "3.1.14";
+    sha256 = "0wvy6m9qfvjii3kanf2d1rhfaww32kg0d7m57643f79qb05gd6vg";
+  };
+  args = defaultArgs // specialArgs;
 in
-  stdenv.mkDerivation rec {
-    inherit pname version;
+  pkgs.stdenv.mkDerivation {
+    pname = args.pname;
+    version = args.version;
 
-    src = fetchFromGitHub {
+    src = pkgs.fetchFromGitHub {
       owner = "mariadb-corporation";
       repo = "mariadb-connector-odbc";
-      rev = version;
-      sha256 = sha256;
+      rev = args.version;
+      sha256 = args.sha256;
       # this driver only seems to build correctly when built against the mariadb-connect-c subrepo
       # (see https://github.com/NixOS/nixpkgs/issues/73258)
       fetchSubmodules = true;
     };
 
-    nativeBuildInputs = [cmake];
-    buildInputs = [unixODBC openssl libiconv];
+    nativeBuildInputs = [pkgs.cmake];
+    buildInputs =
+      [pkgs.unixODBC pkgs.openssl pkgs.libiconv pkgs.zlib]
+      ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [pkgs.libkrb5];
 
     preConfigure = ''
       # we don't want to build a .pkg
@@ -36,8 +36,10 @@ in
     '';
 
     cmakeFlags = [
-      "-DODBC_LIB_DIR=${lib.getLib unixODBC}/lib"
-      "-DODBC_INCLUDE_DIR=${lib.getDev unixODBC}/include"
+      "-DWITH_IODBC=OFF"
+      "-DWITH_EXTERNAL_ZLIB=ON"
+      "-DODBC_LIB_DIR=${pkgs.lib.getLib pkgs.unixODBC}/lib"
+      "-DODBC_INCLUDE_DIR=${pkgs.lib.getDev pkgs.unixODBC}/include"
       "-DWITH_OPENSSL=ON"
       # on darwin this defaults to ON but we want to build against unixODBC
       "-DWITH_IODBC=OFF"
@@ -45,10 +47,10 @@ in
 
     passthru = {
       fancyName = "MariaDB";
-      driver = "lib/libmaodbc${stdenv.hostPlatform.extensions.sharedLibrary}";
+      driver = "lib/libmaodbc${pkgs.stdenv.hostPlatform.extensions.sharedLibrary}";
     };
 
-    meta = with lib; {
+    meta = with pkgs.lib; {
       description = "MariaDB ODBC database driver";
       homepage = "https://downloads.mariadb.org/connector-odbc/";
       license = licenses.gpl2;
