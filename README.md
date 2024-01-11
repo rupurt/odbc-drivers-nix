@@ -23,44 +23,22 @@ This `odbc-drivers-nix` flake assumes you have already [installed nix](https://d
   }: let
     systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
     outputs = flake-utils.lib.eachSystem systems (system: let
-      # use old version of nix packages that builds against glibc 2.35
-      pkgs =
-        import (builtins.fetchGit {
-          name = "nixpkgs-with-glibc-2.35-224";
-          url = "https://github.com/nixos/nixpkgs";
-          ref = "refs/heads/nixpkgs-unstable";
-          rev = "8ad5e8132c5dcf977e308e7bf5517cc6cc0bf7d8";
-        }) {
-          inherit system;
-          overlays = [
-            odbc-drivers.overlay
-          ];
-        };
-      stdenv = pkgs.gccStdenv;
-    in rec {
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            odbc-drivers.overlay
-          ];
-        };
-      in rec
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          odbc-drivers.overlay
+        ];
+      };
+      in
       {
-        packages = {
-          db2-odbc-driver = pkgs.db2-odbc-driver {};
-          postgres-odbc-driver = pkgs.postgres-odbc-driver {};
-          mariadb-odbc-driver = pkgs.mariadb-odbc-driver {};
-        };
-
         devShells.default = pkgs.mkShell {
           packages = [
-            packages.db2-odbc-driver
-            packages.postgres-odbc-driver
-            packages.mariadb-odbc-driver
+            pkgs.odbc-driver-pkgs.db2-odbc-driver
+            pkgs.odbc-driver-pkgs.postgres-odbc-driver
+            pkgs.odbc-driver-pkgs.mariadb-odbc-driver
           ];
         };
-      }
+      };
     );
 }
 ```
