@@ -51,7 +51,7 @@ required for your project.
 
 | Database                                                                                        | Version    | Linux x86_64 | Linux arm64 | OS X x86_64 | OS X aarch64 |
 | ----------------------------------------------------------------------------------------------- | :--------: | :----------: | :---------: | :---------: | :----------: |
-| [Db2](https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli)           | v11.5.8    | `[x]`        | `[ ]`       | `[x]`       | `[ ]`        |
+| [Db2](https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli)           | v11.5.9    | `[x]`        | `[ ]`       | `[x]`       | `[ ]`        |
 | [Postgres](https://www.postgresql.org/download)                                                 | 15.00.0000 | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
 | [MariaDB](https://mariadb.com/kb/en/mariadb-connector-odbc)                                     | 3.1.9      | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
 

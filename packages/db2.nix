@@ -4,13 +4,13 @@
 }: let
   defaultArgs = {
     pname = "db2-odbc-driver";
-    version = "11.5.8";
+    version = "11.5.9";
   };
   args = defaultArgs // specialArgs;
   sources = {
-    aarch64-darwin = fetch "macos64" "sha256-xkezCidWDRM0mBqiXJGLsh0lMubO9YzVhbYmeV/cHRU=";
-    x86_64-darwin = fetch "macos64" "sha256-xkezCidWDRM0mBqiXJGLsh0lMubO9YzVhbYmeV/cHRU=";
-    x86_64-linux = fetch "linuxx64" "sha256-P3aQJNzBCJO2SNxYjnDwzckHi7zp6xzIc7qm4Qb703w=";
+    aarch64-darwin = fetch "macos64" "sha256-kWpCYoLj6lqPBss8KXWWNNZIWkW0L3s9R86nIMb+T8Q=";
+    x86_64-darwin = fetch "macos64" "sha256-kWpCYoLj6lqPBss8KXWWNNZIWkW0L3s9R86nIMb+T8Q=";
+    x86_64-linux = fetch "linuxx64" "sha256-RClYjaKIIzNjFVav5l2EEtbejg9amdZGpxRecLITTZE=";
   };
   fetch = platform: sha256:
     pkgs.fetchurl {
