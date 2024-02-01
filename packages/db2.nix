@@ -7,21 +7,11 @@
     version = "11.5.9";
   };
   args = defaultArgs // specialArgs;
-  sources = {
-    aarch64-darwin = fetch "macos64" "sha256-kWpCYoLj6lqPBss8KXWWNNZIWkW0L3s9R86nIMb+T8Q=";
-    x86_64-darwin = fetch "macos64" "sha256-kWpCYoLj6lqPBss8KXWWNNZIWkW0L3s9R86nIMb+T8Q=";
-    x86_64-linux = fetch "linuxx64" "sha256-RClYjaKIIzNjFVav5l2EEtbejg9amdZGpxRecLITTZE=";
-  };
-  fetch = platform: sha256:
-    pkgs.fetchurl {
-      inherit sha256;
-      url = "https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli/v${args.version}/${platform}_odbc_cli.tar.gz";
-    };
 in
   pkgs.stdenv.mkDerivation {
     pname = args.pname;
     version = args.version;
-    src = sources.${pkgs.stdenv.hostPlatform.system};
+    src = ./.;
 
     nativeBuildInputs = pkgs.lib.optional pkgs.stdenv.isLinux [
       pkgs.libkrb5
@@ -34,7 +24,7 @@ in
         pkgs.pam
         pkgs.stdenv.cc.cc.lib
       ]
-      # when using glibc >= 2.36 on linux need libxcrypt-legacy for libcrypt.so
+      # When using glibc >= 2.36 on linux need libxcrypt-legacy for libcrypt.so
       # https://github.com/NixOS/nixpkgs/issues/223805
       ++ pkgs.lib.optionals (pkgs.stdenv.isLinux) [
         pkgs.libxcrypt-legacy
@@ -43,8 +33,29 @@ in
         pkgs.libxcrypt
       ];
 
-    installPhase = ''
-      mkdir -p $out
-      cp -r * $out
-    '';
+    # Ideally darwin would unpack the source dmg with something like undmg or hdiutil. Unfortunately
+    # the Db2 image is signed which is not supported currently in undmg and hdiutil would require
+    # the derivation to be impure.
+    installPhase =
+      if pkgs.stdenv.isDarwin
+      then ''
+        mkdir -p $out
+        tar --extract \
+          --gunzip \
+          --file ./drivers/macos/ibm_data_server_driver_for_odbc_cli.tar.gz \
+          --directory ./drivers
+        cp -r ./drivers/clidriver/* $out
+      ''
+      else ''
+        mkdir -p $out
+        tar --extract \
+          --gunzip \
+          --file ./drivers/v11.5.9_linuxx64_dsdriver.tar.gz \
+          --directory ./drivers
+        tar --extract \
+          --gunzip \
+          --file ./drivers/dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz \
+          --directory ./drivers
+        cp -r ./drivers/clidriver/* $out
+      '';
   }
