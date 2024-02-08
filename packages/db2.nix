@@ -44,7 +44,16 @@ in
           --gunzip \
           --file ./drivers/macos/ibm_data_server_driver_for_odbc_cli.tar.gz \
           --directory ./drivers
-        cp -r ./drivers/clidriver/* $out
+        cp -r ./drivers/clidriver/adm $out
+        cp -r ./drivers/clidriver/bin $out
+        cp -r ./drivers/clidriver/bnd $out
+        cp -r ./drivers/clidriver/cfg $out
+        cp -r ./drivers/clidriver/cfgcache $out
+        cp -r ./drivers/clidriver/conv $out
+        cp -r ./drivers/clidriver/db2dump $out
+        cp -r ./drivers/clidriver/lib $out
+        cp -r ./drivers/clidriver/license $out
+        cp -r ./drivers/clidriver/msg $out
       ''
       else ''
         mkdir -p $out
@@ -56,6 +65,15 @@ in
           --gunzip \
           --file ./drivers/dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz \
           --directory ./drivers
-        cp -r ./drivers/clidriver/* $out
+        cp -r ./drivers/clidriver/adm $out
+        cp -r ./drivers/clidriver/bin $out
+        cp -r ./drivers/clidriver/cfg $out
+        cp -r ./drivers/clidriver/cfgcache $out
+        cp -r ./drivers/clidriver/conv $out
+        cp -r ./drivers/clidriver/db2dump $out
+        cp -r ./drivers/clidriver/lib $out
+        cp -r ./drivers/clidriver/license $out
+        cp -r ./drivers/clidriver/msg $out
+        cp -r ./drivers/clidriver/properties $out
       '';
   }
