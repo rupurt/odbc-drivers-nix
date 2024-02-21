@@ -42,7 +42,7 @@ in
         mkdir -p $out
         tar --extract \
           --gunzip \
-          --file ./drivers/macos/ibm_data_server_driver_for_odbc_cli.tar.gz \
+          --file ./drivers/macos/v11.5.9/ibm_data_server_driver_for_odbc_cli.tar.gz \
           --directory ./drivers
         cp -r ./drivers/clidriver/adm $out
         cp -r ./drivers/clidriver/bin $out
@@ -59,11 +59,7 @@ in
         mkdir -p $out
         tar --extract \
           --gunzip \
-          --file ./drivers/v11.5.9_linuxx64_dsdriver.tar.gz \
-          --directory ./drivers
-        tar --extract \
-          --gunzip \
-          --file ./drivers/dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz \
+          --file ./drivers/linux/v11.5.9/ibm_data_server_driver_for_odbc_cli.tar.gz \
           --directory ./drivers
         cp -r ./drivers/clidriver/adm $out
         cp -r ./drivers/clidriver/bin $out
