@@ -21,9 +21,13 @@
     in {
       # packages exported by the flake
       packages = rec {
-        db2-odbc-driver = pkgs.callPackage ./packages/db2.nix {
+        db2-odbc-driver-11-5-9 = pkgs.callPackage ./packages/db2-11-5-9.nix {
           inherit pkgs;
         };
+        db2-odbc-driver-12-1-0 = pkgs.callPackage ./packages/db2-12-1-0.nix {
+          inherit pkgs;
+        };
+        db2-odbc-driver = db2-odbc-driver-11-5-9;
         postgres-odbc-driver = pkgs.callPackage ./packages/postgres.nix {
           inherit pkgs;
         };
