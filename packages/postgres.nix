@@ -4,8 +4,8 @@
 }: let
   defaultArgs = {
     pname = "postgres-odbc-driver";
-    version = "15.00.0000";
-    sha256 = "1v7qndj3gqpr2mil8hrgr9as3rdb0z0vyyz1zas7zsijjlsdcmya";
+    version = "16.00.0000";
+    sha256 = "sha256-r9iS+J0uzujT87IxTxvVvy0CIBhyxuNDHlwxCW7KTIs=";
   };
   args = defaultArgs // specialArgs;
 in
@@ -13,7 +13,7 @@ in
     pname = args.pname;
     version = args.version;
     src = pkgs.fetchurl {
-      url = "https://ftp.postgresql.org/pub/odbc/versions/src/psqlodbc-${args.version}.tar.gz";
+      url = "https://ftp.postgresql.org/pub/odbc/versions.old/src/psqlodbc-${args.version}.tar.gz";
       sha256 = args.sha256;
     };
 
