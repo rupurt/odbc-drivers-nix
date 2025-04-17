@@ -52,7 +52,7 @@ required for your project.
 | Database                                                                                                     | Version    | Linux x86_64 | Linux arm64 | OS X x86_64 | OS X aarch64 |
 | ------------------------------------------------------------------------------------------------------------ | :--------: | :----------: | :---------: | :---------: | :----------: |
 | [Db2](https://early-access.ibm.com/software/support/trial/cst/programwebsite.wss?siteId=853&h=null&tabId=)   | v12.1.0    | `[x]`        | `[ ]`       | `[ ]`       | `[x]`        |
-| [Postgres](https://www.postgresql.org/download)                                                              | 15.00.0000 | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
+| [Postgres](https://www.postgresql.org/download)                                                              | 16.00.0000 | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
 | [MariaDB](https://mariadb.com/kb/en/mariadb-connector-odbc)                                                  | 3.1.9      | `[x]`        | `[x]`       | `[x]`       | `[x]`        |
 
 ## Authors
