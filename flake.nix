@@ -39,7 +39,7 @@
             version = "12.1.1";
           };
         };
-        db2-odbc-driver = db2-odbc-driver-11-5-9;
+        db2-odbc-driver = db2-odbc-driver-12-1-1;
         postgres-odbc-driver = pkgs.callPackage ./packages/postgres.nix {
           inherit pkgs;
         };
